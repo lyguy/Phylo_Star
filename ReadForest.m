@@ -3,8 +3,8 @@ function [treecollect] =  ReadForest(filename)
 %
 % rev1. Lyman Gillispie current as of 11/2/11
 % TODO:
-%   * need to preallocate for treecollect cell array to speed up loop? 
-%   * need to bug test
+%   * can we preallocate for treecollect cell array to speed up loop? 
+%   * exception handling
 
 if nargin ==0
     [filename, pathname] = uigetfile({'*.tree';'*.dnd'},'Select Phylogenetic Tree File');

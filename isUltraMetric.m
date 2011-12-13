@@ -2,15 +2,10 @@ function [aa, DD] = isUltraMetric(tr)
 
 % isUltraMetric reads in a rooted phytree and returns true if
 % the tree is ultramatric and false otherwise
-% id the DD argument is returned, the distance matrix is returned as well
+% If the DD argument is returned, the distance matrix is returned as well
 % 
-% At this point, assumes that the tree passed is rooted, and doesn't check
-% much
+% exception handling need to be implemented
 %
-
-
-
-
 
 
 NLeaves = get(tr,'NumLeaves');

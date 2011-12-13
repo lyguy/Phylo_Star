@@ -10,7 +10,7 @@ function StarTree = makeultra(tr,StarLength,DFromRoot)
 %
 %   rev 1 Lyman Gillispie 11/2/2011
 %   TODO:
-%       * error handling i.e. StarLength < DeepestLevel, DFromRoot < Nodenum(end) etc.
+%       * exception handling i.e. StarLength < DeepestLevel, DFromRoot < Nodenum(end) etc.
 %       * Might be faster if it checks ultrametric to start
 %       * Might be nice to make inputing a forest an option?
 %       * bugtesting

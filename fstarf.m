@@ -6,23 +6,16 @@ function [dmatricies,treeforest] = fstarf(treefile,outfile,StarLength)
 %
 % Depends on: READFOREST, MAKEULTRA, MATRIXTOMAPLE
 %
-% rev 1: Lyman Gillispie 11/18/2011
-% TODO: *incorporate the probfile, i.e. the maple poly file (this is a bit
-% tricky)
+% rev 2: Lyman Gillispie 12/1/2011
+% TODO: 
 %       * put list of trees into a maple array in order
-%       * if outfile doesn't exists create it 
 %       * it we're missing options, select them with the ui
-%       * incorporate options for MAKEULTRA, i.e. node-numbering schemes
-%         (this is easy)
-%       * error handling, how do we know that the forest in the file is legit,
+%       * exception handling, how do we know that the forest in the file is legit,
 %         how do we know that it matches the probfile etc.
 %       * bugtesting, also verify all of this stuff, esp MATRIXTOMAPLE leaf
 %         ordering
 
 
-%treefile = 't4all2';
-%probfile = 'toSingular-4taxbal.txt';
-%outfile = 't4all2maple.mpl';
 
 %% make distance matricies
 treeforest = ReadForest(treefile);
@@ -42,10 +35,8 @@ for ii = 1:NumTrees
 end
 
 %% write distance matricies to outfile
-% outfile = uiputfile({'*.mpl'},'Save To Maple File')
+
 outfid = fopen(outfile,'w');
-%LeafNames = 
-% need to fix leaf names, add input filenames
 
 fprintf(outfid, '%s\n%s %s\n','# Matricies and probabilities for STAR','# Leaf names are, in order:',cell2mat(names));
 fprintf(outfid, '%s\n', ['# Tree Topologies taken from file: ', treefile]);

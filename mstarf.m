@@ -7,11 +7,7 @@ function [dmatricies,treeforest] = mstarf(treefile,StarLength)
 %
 % rev 2: Lyman Gillispie 11/18/2011
 % 
-%       * put list of trees into a maple array in order
-%       * if outfile doesn't exists create it 
 %       * it we're missing options, select them with the ui
-%       * incorporate options for MAKEULTRA, i.e. node-numbering schemes
-%         (this is easy)
 %       * error handling, how do we know that the forest in the file is legit,
 %         how do we know that it matches the probfile etc.
 %       * bugtesting, also verify all of this stuff, esp MATRIXTOMAPLE leaf
