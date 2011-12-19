@@ -19,15 +19,22 @@ function [dmatricies,treeforest] = mstarf(treefile,StarLength)
 treeforest = ReadForest(treefile);
 NumTrees = length(treeforest);
 dmatricies = cell(1,NumTrees);
+ntaxa = get(treeforest{1},'NumLeaves');
+
+if nargin >1
+    DFromRoot = sum(StarLength(1:ntaxa-1));
+else
+    DFromRoot = ntaxa-1;
+end
 
 for ii = 1:NumTrees
     if nargin > 1
-        treeforest{ii} = makeultra(treeforest{ii},StarLength);
+    treeforest{ii} = makeultra(treeforest{ii},StarLength,DFromRoot);
     else
-        treeforest{ii} = makeultra(treeforest{ii});
+         treeforest{ii} = makeultra(treeforest{ii},ones(1,ntaxa),DFromRoot);
     end
     %makes dist matricies
-    [names,ix] = sort(get(treeforest{ii},'LeafNames'));
+    [~,ix] = sort(get(treeforest{ii},'LeafNames'));
     DD = pdist(treeforest{ii},'Nodes','Leaves','squareform',true);
     dmatricies{ii} = DD(ix,ix);
 end
