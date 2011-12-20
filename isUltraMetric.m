@@ -1,13 +1,12 @@
 function [aa, DD] = isUltraMetric(tr)
-
-% isUltraMetric reads in a rooted phytree and returns true if
-% the tree is ultramatric and false otherwise
-% If the DD argument is returned, the distance matrix is returned as well
+%%
+% #`[aa,DD] = isUltraMetric(tr)`
+% Takes  a rooted phytree `tr`, `aa = true` if the tree is ultramatric, and
+% is `false` otherwise. `DD` the patristic distance matrix may be returnd
+% for `tr` may be returned as well.
 % 
-% exception handling need to be implemented
-%
-
-
+% `isUltraMetric` is not clled by anything else, and may be depricated in the future. 
+%%
 NLeaves = get(tr,'NumLeaves');
 NNodes = get(tr,'NumNodes');
 DD = pdist(tr, 'Nodes', 'all', 'Squareform',true);

@@ -1,8 +1,13 @@
 function [R]=strcelltomaple(M)
-% takes in a Matlab cellarray of strings and spits out string for maple.
-% 10-31-2011 Lyman Gillispie
-% TODO: *verify that the reordering of the leaves works
-%       *bugtest
+%%
+% #`[R]=strcelltomaple(M)`
+% Reads a Matlab stringcell `M` and returns the string `R`, which is `M`
+% formated for entry into Maple as a matrix
+% See also: `matrixtomaple.m`
+% 
+% TODO: * exception handling (double chek it's a matrix?)
+%       * can we preallocate `TT` so that the loop speeds up?
+%%
 
 R = 'Matrix([';
 L = length(M);

@@ -1,8 +1,13 @@
 function [R]=matrixtomaple(M)
-% takes in a Matlab matrix and spits out string for maple.
-% 10-31-2011 Lyman Gillispie
-% TODO: *verify that the reordering of the leaves works
-%       *exception handling
+%%
+% #`[R]=marixtomaple(M)`
+% Reads a Matlab matrix `M` and returns the string `R`, which is `M`
+% formated for entry into Maple
+% See also: `strcelltomaple.m`
+% 
+% TODO: * exception handling (double chek it's a matrix?)
+%       * can we preallocate `R` so that the loop speeds up?
+%%
 
 R = 'Matrix([';
 L = length(M);

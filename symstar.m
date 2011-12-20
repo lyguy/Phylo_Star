@@ -1,31 +1,31 @@
 function [] = symstar(ntaxa,treename)
 %%
-%   SYMSTAR(ntaxa,treename)
+% #`SYMSTAR(ntaxa,treename)`
 %
-%   Generates Maple file for species tree <ntaxa>-taxa <treename tree>, with abitrary edge
-%   lengths a_i via the STAR node-numbering algorithm
+% Generates Maple file for species tree <ntaxa>-taxa <treename tree>, with abitrary edge
+% lengths `a_i` via the STAR node-numbering algorithm
 %   
-%   symstar depends on having two files, one containg an ordered list of
-%   trees and one containg an ordered list of the probablities of each tree
+% `symstar` depends on having two files, one containg an ordered list of
+% trees and one containg an ordered list of the probablities of each tree
 %
-%       ../gene-trees/          <- tree files
-%       ../gene-tree-probs/    <- tree probibilities
+%   ../gene-trees/          <- tree files
+%   ../gene-tree-probs/    <- tree probibilities
 %
-%   gene-trees and gene tree probabilities must be in the same order
-%   there must be a vector GTprobs<ntaxa>tax<treename> in the probability file with the gene-tree
-%   probabilities 
+% Gene-trees and gene tree probabilities must be in the same order
+% Ghere must be a vector `GTprobs<ntaxa>tax<treename>` in the probability file with the gene-tree
+% probabilities 
 %   
-%   the gene trees may be in Newick format, with or without edge lengths,
-%   they are discarded.
+% The gene trees must be in Newick format, with or without edge lengths,
+% they are discarded.
 %
-%   Current performance bottlenecks are the repeated calls to phytree()
-%   which is pretty sloe, and is on the inside loop often, also the
-%   function which translates numbers to polynomial strings for later
-%   symbolic work in maple.
+% Current performance bottlenecks are the repeated calls to `phytree()`
+% which is pretty slow, and is on the inside loop often, also the
+% function `starhash.m` which translates numbers to polynomial strings for later
+% symbolic work in maple.
 %
-%   Exception handling need to be implemented.   
+%  Exception handling need to be implemented.   
 %
-%   dependencies: mstarf.m, starhash.m, strcelltomaple.m, 
+%  Dependencies: `mstarf.m`, `starhash.m`, `strcelltomaple.m` 
 %%
 
 

@@ -1,10 +1,14 @@
 function [treecollect] =  ReadForest(filename)
-% function READFOREST returns a cell array of phytrees from a file
+%%
+% #`[treecollect] = READFOREST(filename)`
 %
-% rev1. Lyman Gillispie current as of 11/2/11
-% TODO:
+%  Accepts the path of a text file of Newick-formated trees and returns a cell array, where
+%  element `treecollect{ii}` corresponds to line `ii` of `filename`
+%
+% #TODO:
 %   * can we preallocate for treecollect cell array to speed up loop? 
 %   * exception handling
+%%
 
 if nargin ==0
     [filename, pathname] = uigetfile({'*.tree';'*.dnd'},'Select Phylogenetic Tree File');
@@ -16,11 +20,11 @@ if nargin ==0
     filename = [pathname,filename];
 end
 
-% Check input is a char
+% Check input is a char and filename exists
 if ~ischar(filename)
-    error('Bioinfo:gillispiefiles:ReadForest:InvalidInput','Input must be a character array.');
+    error('Bioinfo:PhyloStar:ReadForest:InvalidInput','Input must be a character array.');
 elseif  ~(exist(filename,'file') || exist(fullfile(pwd,filename),'file') )    %  is a valid filename ?
-    error('Bioinfo:gillispiefiles:ReadForest:FileDoesnotExist','File "%s" does not exist.',filename);
+    error('Bioinfo:PhyloStar:ReadForest:FileDoesnotExist','File "%s" does not exist.',filename);
 end
 
 fid = fopen(filename,'r');

@@ -1,32 +1,50 @@
 function [dmatricies,treeforest] = fstarf(treefile,outfile,StarLength)
-% function FSTARF takes in a tree file and gives back a maple file with
-%   the distance matricies from star. Future versions will take in tree file and
-%   file of probability polys and retun maple file with the averaged
-%   distance matrix.
+%%
+% # `[dmatricies,treeforest] = FSTARF(treefile,outfile,StarLength)`
 %
-% Depends on: READFOREST, MAKEULTRA, MATRIXTOMAPLE
+% Accepts the path of a text file of Newick-formated trees and returns a cell-array of 
+% the distance matricies for STAR.
+% Does the same thing as MSTARF except creates a file
 %
-% rev 2: Lyman Gillispie 12/1/2011
-% TODO: 
-%       * put list of trees into a maple array in order
-%       * it we're missing options, select them with the ui
-%       * exception handling, how do we know that the forest in the file is legit,
+% ##Arguments:
+% * `treefile`: path to a text-file of Newick-format rooted binary trees,
+% * `outfile`: path to output file, if it does not exist it will be
+% created, if it exists it will be overwritten.
+% seperated by new lines (see `READFOREST`)
+% * `StarLength`: lengths for internal edges of the gene-trees
+%
+% ##Return Values:
+% * `dmatricies`: cell-array of the distance matricies(gene-trees), made ultra-metric,
+% these may then be averaged for STAR 
+% * `treeforest`: cell-array of the gene-trees from `treefile`
+%
+% `dmatrix{ii}` corresponds to the tree `treeforest{ii}`
+%
+% Depends on: `READFOREST`, `MAKEULTRA`
+%
+% #TODO: 
+% * if we're missing options, select them with the ui
+% * warning about overwriting files?
+% * error handling, how do we know that the forest in the file is legit,
 %         how do we know that it matches the probfile etc.
-%       * bugtesting, also verify all of this stuff, esp MATRIXTOMAPLE leaf
-%         ordering
-
-
-
+%%
 %% make distance matricies
 treeforest = ReadForest(treefile);
 NumTrees = length(treeforest);
 dmatricies = cell(1,NumTrees);
+% ensures every tree has same root-to-leaf distnace
+ntaxa = get(treeforest{1},'NumLeaves');
+if nargin >1
+    dleaftoroot = sum(StarLength(1:ntaxa-1));
+else
+    dleaftoroot = ntaxa-1;
+end
 
 for ii = 1:NumTrees
     if nargin > 2
-        startree = makeultra(treeforest{ii},StarLength);
+        startree = makeultra(treeforest{ii},StarLength,dleaftoroot);
     else
-        startree = makeultra(treeforest{ii});
+         startree = makeultra(treeforest{ii},ones(1,ntaxa),dleaftoroot);
     end
     %makes dist matricies and sorts in order of leaf names
     [names,ix] = sort(get(startree,'LeafNames'));

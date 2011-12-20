@@ -1,19 +1,24 @@
-function StarTree = makeultra(tr,StarLength,DFromRoot)
-
-%   makestar returns the ultramatric tree for tr
-%   as described in Allman & Rhodes and Liu
-%   
-%   StarLength is a vector where StarLength[ii] is the length of an
-%   internal branch at level ii
-%
-%   DFromRoot is distance of leaves from the root in the final STAR tree
-%
-%   rev 1 Lyman Gillispie 11/2/2011
-%   TODO:
-%       * exception handling i.e. StarLength < DeepestLevel, DFromRoot < Nodenum(end) etc.
-%       * Might be faster if it checks ultrametric to start
-%       * Might be nice to make inputing a forest an option?
-%       * bugtesting
+function umtree = makeultra(tr,edgelengths,dleaftoroot)
+%%
+% #`umtree = MAKEULTRA(tr,edgelengths,dleaftoroot)`
+% 
+%    Returns a rooted ultrametric tree with the topology of `tr`, internal branch lengths
+%    defined by `edgelengths` and leaf-to-root distance defined by
+%    `dleaftoroot`.
+%     
+% #Arguments:
+%   * `tr`: rooted tree of class `phytree` from Matlab's Bioinformatics
+%   tool box, branch lengths may be 0 or empty
+%   * `edgelengths`: a vector where `edgelengths[ii]` is the length of an
+%    internal branch at level `ii`
+%   * `dleaftoroot`: is distance of leaves from the root in the final STAR tree
+% 
+% #TODO:
+%  *  exception handling i.e. `edgelengths < DeepestLevel, dleaftoroot < Nodenum(end)` etc.
+%  *  Might be faster if it checks ultrametric to start
+%  *  Alternative for entering Node-Numbers instead of edge-lengths?
+%  *  bugtesting
+%%
 
 
 NodeLevels = pdist(tr, 'Nodes', 'all', 'Squareform',true,'Criteria','levels');
@@ -32,40 +37,42 @@ DeepestLevel = max(LLevel);
     
 %Default breanch lengths are "1"
 if nargin == 1
-    StarLength = ones(DeepestLevel,1);
-elseif length(StarLength) < DeepestLevel
-    error('Bioinfo:gillispie:makeultra:toofewedgelength','length(StarLength) < DeepestLevel: too few edge lengths');
+    edgelengths = ones(DeepestLevel,1);
+elseif length(edgelengths) < DeepestLevel
+    error('Bioinfo:PhyloStar:makeultra:toofewedgelengths','length(edgelengths) < DeepestLevel: too few edge lengths');
 end
 
 %% Calculate d from root at each level
 NodeNums = zeros(DeepestLevel,1);
-NodeNums(1) = StarLength(1);
+NodeNums(1) = edgelengths(1);
 for ii = 2:DeepestLevel
-    NodeNums(ii) = NodeNums(ii-1) + StarLength(ii);
+    NodeNums(ii) = NodeNums(ii-1) + edgelengths(ii);
 end
 
 % Uses branch length vector to determine default dist(leaf,root)
-if nargin == 3 && (DFromRoot < NodeNums(end))
-    error('Bioinfo:gillispie:makeultra:DFromRoottooSmall','DFromRoot is < largest NodeNumber');
+if nargin == 3 && (dleaftoroot < NodeNums(end))
+    error('Bioinfo:PhyloStar:makeultra:dleaftorootTooSmall','dleaftoroot is < largest NodeNumber');
 elseif nargin < 3
-    DFromRoot = NodeNums(end);
+    dleaftoroot = NodeNums(end);
 end
 
 
 
 %% Calculate the distance from each parent
+%   assign each internal branch based on edgelengths
 for ii = 1:NLeaves-2
-    BranchDist(ii) = StarLength(BLevel(ii));
+    BranchDist(ii) = edgelengths(BLevel(ii));
 end;
+%   assign leaf distancee based on dleaftoroot
 for ii = 1:NLeaves
-    if LLevel(ii) ==1
-        LDist(ii) = DFromRoot;
+    if LLevel(ii) == 1
+        LDist(ii) = dleaftoroot;
     else
-        LDist(ii) = DFromRoot - NodeNums(LLevel(ii) - 1);
+        LDist(ii) = dleaftoroot - NodeNums(LLevel(ii) - 1);
     end
 end;
-StarDist = [LDist;BranchDist];
+umdist = [LDist;BranchDist];
 
-StarTree = phytree(get(tr,'Pointers'),StarDist,get(tr,'LeafNames'));
+umtree = phytree(get(tr,'Pointers'),umdist,get(tr,'LeafNames'));
 
 end
