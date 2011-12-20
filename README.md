@@ -4,7 +4,8 @@ numbering algorithm.
 
 #Script Documentation
 
-#`SYMSTAR(ntaxa,treename)`
+#symstar.m
+`SYMSTAR(ntaxa,treename)`
 
 Generates Maple file for species tree <ntaxa>-taxa <treename tree>, with abitrary edge
 lengths `a_i` via the STAR node-numbering algorithm
@@ -30,18 +31,21 @@ symbolic work in maple.
 Dependencies: `mstarf.m`, `starhash.m`, `strcelltomaple.m` 
 
 
-#`[R]=strcelltomaple(M)`
+#strcelltomaple.m
+`[R]=strcelltomaple(M)`
 Reads a Matlab stringcell `M` and returns the string `R`, which is `M`
 formated for entry into Maple as a matrix
 See also: `matrixtomaple.m`
 
-#`[R]=marixtomaple(M)`
+#matrixtomaple.m
+`[R]=marixtomaple(M)`
 Reads a Matlab matrix `M` and returns the string `R`, which is `M`
 formated for entry into Maple
 See also: `strcelltomaple.m`
 
 
-#`[symlen] = starhash(len)
+#starhash.m
+`[symlen] = starhash(len)`
 
 Accepts an integer `len` and returns a string `symlen` which is of the
 form
@@ -52,13 +56,15 @@ This string is formated to be used in Maple, where an array `a`
 represents the branch lengths used for STAR, `a` may be left undefined,
 and manipulated symbolically 
 
-#`[treecollect] = READFOREST(filename)`
+#readforest.m
+`[treecollect] = READFOREST(filename)`
 
  Accepts the path of a text file of Newick-formated trees and returns a cell array, where
  element `treecollect{ii}` corresponds to line `ii` of `filename`
 
 
-# `[dmatricies,treeforest] = MSTARF(treefile,StarLength)`
+#mstarf.m
+`[dmatricies,treeforest] = MSTARF(treefile,StarLength)`
 
 Accepts the path of a text file of Newick-formated trees and returns a cell-array of 
 the distance matricies for STAR.
@@ -78,7 +84,8 @@ these may then be averaged for STAR
 
 Depends on: `READFOREST`, `MAKEULTRA`
 
-# `[dmatricies,treeforest] = FSTARF(treefile,outfile,StarLength)`
+# fstarf.m
+`[dmatricies,treeforest] = FSTARF(treefile,outfile,StarLength)`
 
 Accepts the path of a text file of Newick-formated trees and returns a cell-array of 
 the distance matricies for STAR.
@@ -101,7 +108,8 @@ these may then be averaged for STAR
 Depends on: `READFOREST`, `MAKEULTRA`
 
 
-#`umtree = MAKEULTRA(tr,edgelengths,dleaftoroot)`
+#makeultra.m
+`umtree = MAKEULTRA(tr,edgelengths,dleaftoroot)`
 
    Returns a rooted ultrametric tree with the topology of `tr`, internal branch lengths
    defined by `edgelengths` and leaf-to-root distance defined by
